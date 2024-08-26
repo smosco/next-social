@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* tailwind css로 scrollbar 직접 없앨 수 없어서 따로 css*/
+/* Chrome, Safari, Edge, Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox */
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+
+/* IE and Edge */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+}

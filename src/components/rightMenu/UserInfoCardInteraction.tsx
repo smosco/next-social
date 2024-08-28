@@ -1,6 +1,6 @@
 'use client';
 
-import { switchFollow } from '@/lib/actions';
+import { switchFollow, switchBlock } from '@/lib/actions';
 import { useState } from 'react';
 
 const UserInfoCardInteraction = ({
@@ -64,6 +64,26 @@ const UserInfoCardInteraction = ({
     }
   };
 
+  const block = async (event: React.MouseEvent) => {
+    event.preventDefault();
+
+    // Optimistic UI 업데이트
+    setUserState((prev) => ({
+      ...prev,
+      blocked: !prev.blocked, // 낙관적 UI: 차단 상태를 반전
+    }));
+
+    try {
+      await switchBlock(userId);
+    } catch (err) {
+      // 요청 실패 시 상태를 복구
+      setUserState((prev) => ({
+        ...prev,
+        blocked: !prev.blocked, // 원래 상태로 복구
+      }));
+    }
+  };
+
   return (
     <>
       <form onSubmit={follow}>
@@ -78,8 +98,8 @@ const UserInfoCardInteraction = ({
             : 'Follow'}
         </button>
       </form>
-      <form action='' className='self-end'>
-        <span className='text-red-400 text-xs cursor-pointer'>
+      <form onSubmit={(e) => e.preventDefault()} className='self-end'>
+        <span onClick={block} className='text-red-400 text-xs cursor-pointer'>
           {userState.blocked ? 'Unblock User' : 'Block User'}
         </span>
       </form>

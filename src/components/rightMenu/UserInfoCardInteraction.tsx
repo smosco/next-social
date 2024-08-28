@@ -22,22 +22,55 @@ const UserInfoCardInteraction = ({
     followingRequestSent: isFollowingSent,
   });
 
-  const follow = async () => {
+  const follow = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    // Optimistic UI 업데이트
+    setUserState((prev) => {
+      // 현재 팔로우 상태에 따라 Optimistic하게 상태를 미리 업데이트
+      if (prev.following) {
+        return {
+          ...prev,
+          following: false,
+        };
+      } else if (!prev.following && !prev.followingRequestSent) {
+        return {
+          ...prev,
+          followingRequestSent: true,
+        };
+      } else {
+        return prev; // 기본적으로 이전 상태 유지
+      }
+    });
+
     try {
+      // 서버에 팔로우/언팔로우 요청 보내기
       await switchFollow(userId);
-      setUserState((prev) => ({
-        ...prev,
-        following: prev.following && false,
-        followingRequestSent:
-          !prev.following && !prev.followingRequestSent ? true : false,
-      }));
-    } catch (err) {}
+    } catch (err) {
+      // 서버 요청이 실패하면 원래 상태로 복구
+      setUserState((prev) => {
+        if (prev.followingRequestSent) {
+          return {
+            ...prev,
+            followingRequestSent: false,
+          };
+        } else {
+          return {
+            ...prev,
+            following: true,
+          };
+        }
+      });
+    }
   };
 
   return (
     <>
-      <form action={follow}>
-        <button className='w-full bg-blue-500 text-white text-sm rounded-md p-2'>
+      <form onSubmit={follow}>
+        <button
+          type='submit'
+          className='w-full bg-blue-500 text-white text-sm rounded-md p-2'
+        >
           {userState.following
             ? 'Following'
             : userState.followingRequestSent

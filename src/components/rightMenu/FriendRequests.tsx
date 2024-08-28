@@ -1,7 +1,25 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { auth } from '@clerk/nextjs/server';
+import prisma from '@/lib/client';
+import FriendRequestList from './FriendRequestList';
 
-const FriendRequests = () => {
+const FriendRequests = async () => {
+  const { userId } = auth();
+
+  if (!userId) return null;
+
+  const requests = await prisma.followRequest.findMany({
+    where: {
+      receiverId: userId,
+    },
+    include: {
+      sender: true,
+    },
+  });
+
+  if (requests.length === 0) return null;
+
   return (
     <div className='p-4 bg-white rounded-lg shadow-md text-sm flex flex-col gap-4'>
       {/* TOP */}
@@ -12,90 +30,7 @@ const FriendRequests = () => {
         </Link>
       </div>
       {/* USER */}
-      <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-4'>
-          <Image
-            src='https://images.pexels.com/photos/739407/pexels-photo-739407.jpeg?auto=compress&cs=tinysrgb&w=300'
-            alt=''
-            className='w-10 h-10 rounded-full object-cover'
-            width={40}
-            height={40}
-          />
-          <span className='font-semibold'>Bertha Tran</span>
-        </div>
-        <div className='flex gap-3 justify-end'>
-          <Image
-            src='/accept.png'
-            alt=''
-            className='cursor-pointer'
-            width={20}
-            height={20}
-          />
-          <Image
-            src='/reject.png'
-            alt=''
-            className='cursor-pointer'
-            width={20}
-            height={20}
-          />
-        </div>
-      </div>
-      <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-4'>
-          <Image
-            src='https://images.pexels.com/photos/739407/pexels-photo-739407.jpeg?auto=compress&cs=tinysrgb&w=300'
-            alt=''
-            className='w-10 h-10 rounded-full object-cover'
-            width={40}
-            height={40}
-          />
-          <span className='font-semibold'>Bertha Tran</span>
-        </div>
-        <div className='flex gap-3 justify-end'>
-          <Image
-            src='/accept.png'
-            alt=''
-            className='cursor-pointer'
-            width={20}
-            height={20}
-          />
-          <Image
-            src='/reject.png'
-            alt=''
-            className='cursor-pointer'
-            width={20}
-            height={20}
-          />
-        </div>
-      </div>
-      <div className='flex items-center justify-between'>
-        <div className='flex items-center gap-4'>
-          <Image
-            src='https://images.pexels.com/photos/739407/pexels-photo-739407.jpeg?auto=compress&cs=tinysrgb&w=300'
-            alt=''
-            className='w-10 h-10 rounded-full object-cover'
-            width={40}
-            height={40}
-          />
-          <span className='font-semibold'>Bertha Tran</span>
-        </div>
-        <div className='flex gap-3 justify-end'>
-          <Image
-            src='/accept.png'
-            alt=''
-            className='cursor-pointer'
-            width={20}
-            height={20}
-          />
-          <Image
-            src='/reject.png'
-            alt=''
-            className='cursor-pointer'
-            width={20}
-            height={20}
-          />
-        </div>
-      </div>
+      <FriendRequestList requests={requests} />
     </div>
   );
 };

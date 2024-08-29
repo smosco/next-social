@@ -13,7 +13,7 @@
     "@prisma/client": "^5.18.0",
     "babel-plugin-react-compiler": "^0.0.0-experimental-7d62301-20240821",
     "next": "14.2.6",
-    "next-cloudinary": "^6.10.1",
+    "next-cloudinary": "^6.11.0",
     "prisma": "^5.18.0",
     "react": "^18",
     "react-dom": "^18",

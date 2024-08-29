@@ -5,18 +5,20 @@ import { User } from '@prisma/client';
 import Image from 'next/image';
 import { useState } from 'react';
 import { CldUploadWidget } from 'next-cloudinary';
+import UpdateButton from './UpdateButton';
 
 const UpdateUser = ({ user }: { user: User }) => {
   const [open, setOpen] = useState(false);
   const [cover, setCover] = useState<any>(false);
 
   const [formState, setFormState] = useState({
+    loading: false,
     success: false,
     error: false,
   });
 
   const handleOpen = () => {
-    setFormState({ success: false, error: false });
+    setFormState({ loading: false, success: false, error: false });
     setOpen(true);
   };
 
@@ -29,12 +31,14 @@ const UpdateUser = ({ user }: { user: User }) => {
 
     const formData = new FormData(e.target as HTMLFormElement);
 
+    setFormState({ loading: true, success: false, error: false });
+
     const result = await updateProfile(formData, cover?.secure_url || '');
 
     if (result.success) {
-      setFormState({ success: true, error: false });
+      setFormState({ loading: false, success: true, error: false });
     } else {
-      setFormState({ success: false, error: true });
+      setFormState({ loading: false, success: false, error: true });
     }
   };
 
@@ -176,9 +180,7 @@ const UpdateUser = ({ user }: { user: User }) => {
                 />
               </div>
             </div>
-            <button className='bg-blue-500 p-2 mt-2 rou8nded-md text-white'>
-              Update
-            </button>
+            <UpdateButton loading={formState.loading} />
             {formState.success && (
               <span className='text-green-500'>Profile has been updated!</span>
             )}

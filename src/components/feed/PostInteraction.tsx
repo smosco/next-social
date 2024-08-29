@@ -21,7 +21,7 @@ const PostInteraction = ({
     isLiked: userId ? likes.includes(userId) : false,
   });
 
-  const like = async () => {
+  const toggleLike = async () => {
     if (!isLoaded || !userId) return;
 
     // 현재 상태 백업
@@ -47,7 +47,7 @@ const PostInteraction = ({
       <div className='flex gap-8'>
         <div
           className='flex items-center gap-4 bg-slate-50 p-2 rounded-xl'
-          onClick={like}
+          onClick={toggleLike}
         >
           <Image
             src={likeState.isLiked ? '/liked.png' : '/like.png'}

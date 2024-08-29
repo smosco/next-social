@@ -10,21 +10,46 @@ const UpdateUser = ({ user }: { user: User }) => {
   const [open, setOpen] = useState(false);
   const [cover, setCover] = useState<any>(false);
 
+  const [formState, setFormState] = useState({
+    success: false,
+    error: false,
+  });
+
+  const handleOpen = () => {
+    setFormState({ success: false, error: false });
+    setOpen(true);
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+
+    const result = await updateProfile(formData, cover?.secure_url || '');
+
+    if (result.success) {
+      setFormState({ success: true, error: false });
+    } else {
+      setFormState({ success: false, error: true });
+    }
+  };
+
   return (
     <div className=''>
       <span
         className='text-blue-500 text-xs cursor-pointer'
-        onClick={() => setOpen(true)}
+        onClick={handleOpen}
       >
         Update
       </span>
       {open && (
         <div className='absolute w-screen h-screen top-0 left-0 bg-black bg-opacity-65 flex items-center justify-center z-50 '>
           <form
-            action={(formData) => updateProfile(formData, cover?.secure_url)}
+            onSubmit={handleFormSubmit}
             className='p-12 bg-white rounded-lg shadow-md flex flex-col gap-2 w-full md:w-1/2 xl:w-1/3 relative'
           >
             {/* TITLE */}
@@ -33,7 +58,6 @@ const UpdateUser = ({ user }: { user: User }) => {
               Use the navbar profile to change the avatar or username.
             </div>
             {/* COVER PICTURE UPLOAD */}
-
             <CldUploadWidget
               uploadPreset='social'
               onSuccess={(result) => setCover(result.info)}
@@ -78,7 +102,6 @@ const UpdateUser = ({ user }: { user: User }) => {
               </div>
 
               {/* INPUT */}
-
               <div className='flex flex-col gap-4'>
                 <label htmlFor='' className='text-xs text-gray-500'>
                   Surname
@@ -103,6 +126,7 @@ const UpdateUser = ({ user }: { user: User }) => {
                   name='description'
                 />
               </div>
+
               {/* INPUT */}
               <div className='flex flex-col gap-4'>
                 <label htmlFor='' className='text-xs text-gray-500'>
@@ -122,7 +146,7 @@ const UpdateUser = ({ user }: { user: User }) => {
                 </label>
                 <input
                   type='text'
-                  placeholder={user.city || 'Paris University'}
+                  placeholder={user.school || 'Paris University'}
                   className='ring-1 ring-gray-300 p-[13px] text-sm rounded-md'
                   name='school'
                 />
@@ -155,6 +179,12 @@ const UpdateUser = ({ user }: { user: User }) => {
             <button className='bg-blue-500 p-2 mt-2 rou8nded-md text-white'>
               Update
             </button>
+            {formState.success && (
+              <span className='text-green-500'>Profile has been updated!</span>
+            )}
+            {formState.error && (
+              <span className='text-red-500'>Something went wrong!</span>
+            )}
             <div
               className='absolute text-xl right-2 top-3 cursor-pointer'
               onClick={handleClose}

@@ -20,6 +20,7 @@ const CommentList = ({
   const [commentState, setCommentState] = useState(comments);
   const [desc, setDesc] = useState('');
 
+  // 낙관적 UI 업데이트 적용
   const add = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -50,7 +51,7 @@ const CommentList = ({
     };
 
     // 낙관적 업데이트 - 코멘트를 즉시 UI에 추가
-    setCommentState((prevState) => [...prevState, newComment]);
+    setCommentState((prevState) => [newComment, ...prevState]);
     setDesc(''); // 입력 필드 초기화
 
     try {
@@ -87,6 +88,7 @@ const CommentList = ({
               type='text'
               placeholder='Write a comment...'
               className='bg-transparent outline-none flex-1'
+              value={desc}
               onChange={(e) => setDesc(e.target.value)}
             />
             <Image

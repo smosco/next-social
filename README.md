@@ -34,21 +34,20 @@
 
 3. **환경 변수 설정**:
    - `.env` 파일을 생성하고 필요한 환경 변수를 설정합니다. 
-   - 예시:
-     ```
-    CLERK_SECRET_KEY=your_clerk_secret_key 
-    NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in 
+    ### 예시:
+    ```env
+    CLERK_SECRET_KEY=your_clerk_secret_key
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
     NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
     
-    DATABASE_URL="mysql://<db_username>:<db_password>@<db_host>:<db_port>/<db_name>"
+    DATABASE_URL=mysql://<db_username>:<db_password>@<db_host>:<db_port>/<db_name>
     
     WEBHOOK_SECRET=your_webhook_secret
     
-    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name 
-    NEXT_PUBLIC_CLOUDINARY_API_KEY=your_cloudinary_api_key 
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+    NEXT_PUBLIC_CLOUDINARY_API_KEY=your_cloudinary_api_key
     CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-   ```
 
 5. **데이터베이스 마이그레이션**:
     ```bash

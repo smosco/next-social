@@ -5,7 +5,12 @@ import prisma from './client';
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 
+// 팔로우 상태 변경 함수
+// 팔로우 중이면 팔로우 취소
+// 팔로우 요청 중이면 팔로우 요청 취소
+// 팔로우 중도 아니고 팔로우 요청 중도 아니면 팔로우 요청
 export const switchFollow = async (userId: string) => {
+  // currentUserId 로그인한 사용자
   const { userId: currentUserId } = auth();
 
   if (!currentUserId) {
@@ -13,6 +18,7 @@ export const switchFollow = async (userId: string) => {
   }
 
   try {
+    // 현재 로그인한 유저가 변수로 받은 유저를 팔로우하고 있는지 확인
     const existingFollow = await prisma.follower.findFirst({
       where: {
         followerId: currentUserId,
@@ -20,6 +26,7 @@ export const switchFollow = async (userId: string) => {
       },
     });
 
+    // 팔로우 중이면 팔로우 취소
     if (existingFollow) {
       await prisma.follower.delete({
         where: {
@@ -27,6 +34,7 @@ export const switchFollow = async (userId: string) => {
         },
       });
     } else {
+      // 팔로우 중이 아니면 팔로우 요청 중인지 확인
       const existingFollowRequest = await prisma.followRequest.findFirst({
         where: {
           senderId: currentUserId,
@@ -34,6 +42,7 @@ export const switchFollow = async (userId: string) => {
         },
       });
 
+      // 팔로우 요청 중이면 팔로우 요청 취소
       if (existingFollowRequest) {
         await prisma.followRequest.delete({
           where: {
@@ -41,6 +50,7 @@ export const switchFollow = async (userId: string) => {
           },
         });
       } else {
+        // 팔로우 요청 기록 없으면 팔로우 요청
         await prisma.followRequest.create({
           data: {
             senderId: currentUserId,
@@ -90,6 +100,8 @@ export const switchBlock = async (userId: string) => {
   }
 };
 
+// 팔로우 요청 수락
+// 로그인한 유저가 변수로 받은 유저가 보낸 팔로우 요청을 수락
 export const acceptFollowRequest = async (userId: string) => {
   const { userId: currentUserId } = auth();
 
@@ -125,6 +137,8 @@ export const acceptFollowRequest = async (userId: string) => {
   }
 };
 
+// 팔로우 요청 거절
+// 로그인한 사용자가 변수로 들어온 유저가 보낸 팔로우 요청을 거절
 export const declineFollowRequest = async (userId: string) => {
   const { userId: currentUserId } = auth();
 
@@ -140,6 +154,7 @@ export const declineFollowRequest = async (userId: string) => {
       },
     });
 
+    // 팔로우 요청 기록 삭제
     if (existingFollowRequest) {
       await prisma.followRequest.delete({
         where: {

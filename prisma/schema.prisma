@@ -29,8 +29,8 @@ model User {
   posts                  Post[]
   comments               Comment[]
   likes                  Like[]
-  followers              Follower[]      @relation("UserFollowers")
-  followings             Follower[]      @relation("UserFollowings")
+  followers              Follower[]      @relation("UserFollowings") // 수정
+  followings             Follower[]      @relation("UserFollowers") // 수정
   followRequestsSent     FollowRequest[] @relation("FollowRequestsSent")
   followRequestsReceived FollowRequest[] @relation("FollowRequestsReceived")
   blocks                 Block[]         @relation("BlocksSent")

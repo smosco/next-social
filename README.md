@@ -36,9 +36,32 @@
    - `.env` 파일을 생성하고 필요한 환경 변수를 설정합니다. 
    - 예시:
      ```makefile
-     DATABASE_URL=mysql://username:password@localhost:3306/mydb
-     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
-     NEXT_PUBLIC_CLERK_FRONTEND_API=your_clerk_frontend_api
+
+해당 파일은 보안에 민감한 정보를 포함하고 있으므로, 절대로 그대로 공개 저장소나 README 파일에 올리면 안 됩니다. 일반적으로, 보안에 민감한 키와 같은 정보는 .env 파일로 관리하고 README에는 이러한 파일을 사용하는 방법만 설명해야 합니다.
+
+아래는 README 파일에 올릴 수 있는 일반적인 형태의 가이드입니다:
+
+markdown
+코드 복사
+## Environment Variables
+
+이 프로젝트는 몇 가지 중요한 환경 변수를 필요로 합니다. 아래와 같이 `.env` 파일을 생성하고 필요한 값을 설정해주세요.
+
+### 예시 `.env` 파일:
+    ```
+    CLERK_SECRET_KEY=your_clerk_secret_key 
+    NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in 
+    NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+    
+    DATABASE_URL="mysql://<db_username>:<db_password>@<db_host>:<db_port>/<db_name>"
+    
+    WEBHOOK_SECRET=your_webhook_secret
+    
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name 
+    NEXT_PUBLIC_CLOUDINARY_API_KEY=your_cloudinary_api_key 
+    CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
      ```
 
 4. **데이터베이스 마이그레이션**:

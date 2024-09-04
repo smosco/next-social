@@ -35,10 +35,7 @@
 3. **환경 변수 설정**:
    - `.env` 파일을 생성하고 필요한 환경 변수를 설정합니다. 
    - 예시:
-     ```makefile
-
-### 예시 `.env` 파일:
-    ```
+     ```
     CLERK_SECRET_KEY=your_clerk_secret_key 
     NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in 
     NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
@@ -51,15 +48,14 @@
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name 
     NEXT_PUBLIC_CLOUDINARY_API_KEY=your_cloudinary_api_key 
     CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-    
-     ```
+   ```
 
-4. **데이터베이스 마이그레이션**:
+5. **데이터베이스 마이그레이션**:
     ```bash
     npx prisma migrate dev
     ```
 
-5. **개발 서버 실행**:
+6. **개발 서버 실행**:
     ```bash
     npm run dev
     ```

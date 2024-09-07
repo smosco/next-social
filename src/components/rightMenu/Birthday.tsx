@@ -17,7 +17,7 @@ const Birthday = () => {
             width={40}
             height={40}
           />
-          <span className='font-semibold'>Bertha Tran</span>
+          <span className='font-semibold'>Bom Han</span>
         </div>
         <div className='flex gap-3 justify-end'>
           <button className='bg-blue-500 text-white text-xs px-2 py-1 rounded-md'>

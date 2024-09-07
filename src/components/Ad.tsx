@@ -18,7 +18,7 @@ const Ad = ({ size }: { size: 'sm' | 'md' | 'lg' }) => {
           }`}
         >
           <Image
-            src='https://images.pexels.com/photos/2574489/pexels-photo-2574489.jpeg?auto=compress&cs=tinysrgb&w=300'
+            src='https://www.tamnao.com/data/sp/thumb/SP00001976_2.jpg'
             alt=''
             fill
             className='rounded-lg object-cover'
@@ -26,13 +26,13 @@ const Ad = ({ size }: { size: 'sm' | 'md' | 'lg' }) => {
         </div>
         <div className='flex items-center gap-4'>
           <Image
-            src='https://images.pexels.com/photos/2574489/pexels-photo-2574489.jpeg?auto=compress&cs=tinysrgb&w=300'
+            src='https://www.tamnao.com/data/sp/thumb/SP00001976_1.jpg'
             alt=''
             width={24}
             height={24}
             className='rounded-full w-6 h-6  object-cover'
           />
-          <span className='text-blue-500 font-medium'>Paris Cafeteria</span>
+          <span className='text-blue-500 font-medium'>Jeju Dolphin Tour</span>
         </div>
 
         <p className={size === 'sm' ? 'text-xs' : 'text-sm'}>
